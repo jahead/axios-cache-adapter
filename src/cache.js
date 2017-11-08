@@ -45,7 +45,9 @@ async function read (config, req) {
 
   const { expires, data } = entry
 
-  if (expires !== 0 && (expires < Date.now())) {
+  const skipStale = config.readOnError && config.acceptStale
+
+  if (expires !== 0 && (expires < Date.now()) && !skipStale) {
     config.debug('cache-stale', req.url)
     const error = new Error()
 
@@ -55,7 +57,7 @@ async function read (config, req) {
     throw error
   }
 
-  config.debug('cache-hit', req.url)
+  config.debug(skipStale ? 'cache-hit-network-error' : 'cache-hit', req.url)
 
   return data
 }
