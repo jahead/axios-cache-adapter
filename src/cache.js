@@ -75,7 +75,7 @@ function key (config) {
 }
 
 function invalidate (config = {}) {
-  if (isFunction(config.invalidate)) return config.invalidate
+  if (!isFunction(config.invalidate)) return config.invalidate
 
   return async (cfg, req) => {
     const uuid = cfg.key(req)
