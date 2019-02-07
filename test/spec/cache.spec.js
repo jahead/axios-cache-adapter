@@ -120,12 +120,6 @@ describe('Cache store', () => {
 
   it('Should ignore cache', async () => {
     await cache.write(config, req, res)
-
-    const cacheData = await cache.read(config, req)
-
-    assert.ok(cacheData.data.youhou)
-
-    await cache.write(config, req, res)
     config.ignoreCache = true
     try {
       await cache.read(config, req)
